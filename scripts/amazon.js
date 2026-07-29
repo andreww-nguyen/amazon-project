@@ -28,7 +28,7 @@ products.forEach((product) =>
       </div>
 
       <div class="product-quantity-container">
-        <select>
+        <select class="js-quantity-selector-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -64,9 +64,12 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
   {
     // get the productID
     const productId = button.dataset.productId;
-    let matchingItem;
+
+    // get the number of items to add to the cart
+    const productQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
     // check if the product already exists in the cart
+    let matchingItem;
     cart.forEach((item) =>
     {
       // check 
@@ -76,7 +79,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
 
     // increment the quantity of the item that is already in the cart
     if (matchingItem)
-      matchingItem.quantity++;
+      matchingItem.quantity += productQuantity;
 
     // add the new product to the cart
     else
@@ -85,7 +88,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
       (
         {
           productId: productId,
-          quantity: 1
+          quantity: productQuantity
         }
       );
     }
@@ -93,8 +96,6 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
     // calculate the number of items in the cart
     let cartQuantity = 0;
     cart.forEach(item => cartQuantity += item.quantity);
-    console.log(cartQuantity);
-
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   })
 });
