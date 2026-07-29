@@ -1,7 +1,6 @@
 
 let productsHTML = '';
-// loop through the array to get the product information,
-// then display on the page
+// loop through the array to get the product information
 products.forEach((product) =>
 {
   productsHTML += `
@@ -18,6 +17,7 @@ products.forEach((product) =>
       <div class="product-rating-container">
         <img class="product-rating-stars"
           src="images/ratings/rating-${product.rating.stars * 10}.png">
+
         <div class="product-rating-count link-primary">
           ${product.rating.count}
         </div>
@@ -49,10 +49,49 @@ products.forEach((product) =>
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary">
+      <button class="js-add-to-cart add-to-cart-button button-primary"
+      data-product-id="${product.id}">
         Add to Cart
       </button>
     </div>`;
 });
-
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+// eventListener for the 'add to cart' buttons
+document.querySelectorAll('.js-add-to-cart').forEach((button) =>
+{
+  button.addEventListener('click', () =>
+  {
+    // get the productID
+    const productId = button.dataset.productId;
+    let matchingItem;
+
+    // check if the product already exists in the cart
+    cart.forEach((item) =>
+    {
+      // check 
+      if (productId === item.productId)
+      {
+        matchingItem = item;
+      }
+    });
+
+    // increment the quantity of the item that is already in the cart
+    if (matchingItem)
+      matchingItem.quantity++;
+
+    // add the new product to the cart
+    else
+    {
+      cart.push
+      (
+        {
+          productId: productId,
+          quantity: 1
+        }
+      );
+    }
+
+    console.log(cart);
+  })
+});
