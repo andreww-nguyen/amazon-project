@@ -71,9 +71,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
     {
       // check 
       if (productId === item.productId)
-      {
         matchingItem = item;
-      }
     });
 
     // increment the quantity of the item that is already in the cart
@@ -92,6 +90,11 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
       );
     }
 
-    console.log(cart);
+    // calculate the number of items in the cart
+    let cartQuantity = 0;
+    cart.forEach(item => cartQuantity += item.quantity);
+    console.log(cartQuantity);
+
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   })
 });
