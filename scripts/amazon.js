@@ -2,6 +2,9 @@ import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
+// 
+updateCartQuantity(); 
+
 let productsHTML = '';
 // loop through the array to get the product information
 products.forEach((product) =>
