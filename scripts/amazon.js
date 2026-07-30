@@ -1,3 +1,4 @@
+import {cart} from '../data/cart.js';
 
 let productsHTML = '';
 // loop through the array to get the product information
