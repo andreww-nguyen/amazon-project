@@ -1,4 +1,4 @@
-export const cart = 
+export let cart = 
 [
   {
     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -46,4 +46,17 @@ export function addToCart(productId)
       }
     );
   }
+}
+
+/**
+ * 
+ * @param {string} productId the ID associated with the product
+ */
+export function removeFromCart(productId)
+{
+  // create a new array, but filter out the item with the same productId
+  const newCart = cart.filter(cartItem => cartItem.productId !== productId);
+
+  // set our cart to newCart
+  cart = newCart;
 }
