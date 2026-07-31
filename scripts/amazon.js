@@ -1,8 +1,8 @@
-import {cart, addToCart} from '../data/cart.js';
+import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
-// 
+// update the cart quantity when loading the page
 updateCartQuantity(); 
 
 let productsHTML = '';
@@ -80,7 +80,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
     updateCartQuantity();  
 
     // display the 'added' text on the page. Store the timeoutID generated
-    // from setTimeout into currentTimeoutID.
+    // from setTimeout into currentTimeoutID
     let currentTimeoutID = displayAddedText(productId, previousTimeoutID)
 
     // store the current timeout ID into previous timeoutID. The timeoutID of this click
@@ -95,12 +95,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
  */
 function updateCartQuantity()
 {
-  // calculate the number of items in the cart
-  let cartQuantity = 0;
-  cart.forEach(cartItem => cartQuantity += cartItem.quantity);
-
-  // updathe the cart quantity
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  // update the cart quantity
+  document.querySelector('.js-cart-quantity').innerHTML = calculateCartQuantity();
 }
 
 /**

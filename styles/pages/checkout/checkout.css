@@ -209,3 +209,34 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-input
+{
+  width: 30px;
+  display: none;
+}
+
+.save-quantity-link
+{
+  display: none;
+}
+
+/*
+* When the is-editing-quantity class is added, it displays any elements with the 
+* quantity-input or save-quantity-link classes
+*/
+.is-editing-quantity .quantity-input, 
+.is-editing-quantity .save-quantity-link
+{
+  display: initial;
+}
+
+/*
+* On the other hand, any elements with the update-quantity-link and
+* quantity-label classes are hidden
+*/
+.is-editing-quantity .update-quantity-link,
+.is-editing-quantity .quantity-label
+{
+  display: none;
+}

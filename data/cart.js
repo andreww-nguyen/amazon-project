@@ -17,7 +17,6 @@ if (!cart)
   ];
 }
 
-
 /**
  * uses the ID to add the new/existing item to the cart.
  * Adds the selected number of items that the user specified using the 
@@ -74,6 +73,44 @@ export function removeFromCart(productId)
   saveToStorage();
 }
 
+/**
+ * 
+ * @returns {number} cartQuantity the number of items in the cart
+ */
+export function calculateCartQuantity()
+{
+  // loop through the entire cart and add the quantities together
+  let cartQuantity = 0;
+  cart.forEach(cartItem => cartQuantity += cartItem.quantity);
+
+  // return the quantity
+  return cartQuantity;
+}
+
+/**
+ * loops through the cart and locates the item based on the ID.
+ * Then, the item's quantity is changed to the newQuantity
+ * 
+ * @param {string} productId the ID associated with the product
+ * @param {number} newQuantity the specified quantity the user wants to change to
+ */
+export function updateItemQuantity(productId, newQuantity)
+{
+  // loop through the cart and locate the matching product
+  cart.forEach((cartItem) =>
+  {
+    // update the item's quantity to the newQuantity
+    if (cartItem.productId === productId)
+      cartItem.quantity = newQuantity;
+  });
+
+  // save the new cart to local storage
+  saveToStorage();
+}
+
+/**
+ * saves the current cart to local storage
+ */
 function saveToStorage()
 {
   localStorage.setItem('cart', JSON.stringify(cart));
