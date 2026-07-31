@@ -53,7 +53,9 @@ cart.forEach((cartItem) =>
               Update
             </span>
 
-            <input class="js-quantity-input-${matchingProduct.id} quantity-input">
+            <input class="js-quantity-input js-quantity-input-${matchingProduct.id} quantity-input"
+            data-product-id="${matchingProduct.id}" 
+            type="number" value="${Number(cartItem.quantity)}">
 
             <span class="js-save-quantity-link save-quantity-link link-primary"
             data-product-id="${matchingProduct.id}">
@@ -155,46 +157,87 @@ document.querySelectorAll('.js-save-quantity-link').forEach((link) =>
   link.addEventListener('click', () =>
   {
     const productId = link.dataset.productId;
-    // remove the is-editing-quantity class from the container. This will revert any changes
-    // than happened when clicking on the 'update' link
-    document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
-
     // get the quantity the user specified from the input element
-    const newQuantity = Number(document.querySelector(`.js-quantity-input-${productId}`).value);
+    const newQuantity = document.querySelector(`.js-quantity-input-${productId}`).value;
+    // handle the input
+    const isValid = handleInput(productId, newQuantity);
 
-    // validate user input
+    // only remove the 'is-editing-quantity' class if the user entered a valid quantity
+    if (isValid)
+      document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
+  });
+});
+
+// eventListener for the 'keydown'
+document.querySelectorAll('.js-quantity-input').forEach((input) =>
+{
+  input.addEventListener('keydown', (event) =>
+  {
+    if (event.key === 'Enter')
+    {
+      const productId = input.dataset.productId;
+
+      // get the quantity of the item
+      const newQuantity = input.value;
+  
+      // handle the input
+      const isValid = handleInput(productId, newQuantity);
+      
+      // only remove the 'is-editing-quantity' class if the user entered a valid quantity
+      if (isValid)
+        document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
+    }
+  })
+});
+
+/**
+ * 
+ * @param {string} productId the ID associated with the item
+ * @param {string} userInput the value that was inside the input element
+ * @returns true or false depending on the user's input. True for a 
+ * valid input and false for invalid input
+ * 
+ */
+function handleInput(productId, userInput)
+{
+  // validate invalid keys
+  if (isNaN(Number(userInput)))
+  {
+    // return false if the user entered an invalid number
+    alert(`ERROR: '${userInput}' is not a valid number`);
+    return false;
+  }
+  else
+  {
+    // convert userInput into a number
+    const newQuantity = Math.floor(Number(userInput));
+
+    // validate invalid numbers
     if (newQuantity < 0 || newQuantity > 30)
-      alert(`ERROR: Cannot update quantity to: ${newQuantity}`);
+    {
+      alert(`ERROR: Cannot update quantity to: '${newQuantity}'`);
+      return false;
+    }
     else
     {
-      // update the quantity of the item
-      updateItemQuantity(productId, newQuantity);
-
-      // update the quantity labels on the page
-      updateCartQuantityLabel(); // label on the header
-      document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity; // label in the container
-      
       // handle where no input or '0'
       if (newQuantity === 0)
       {
         // remove the item from the cart
         removeFromCart(productId);
-
-        // remove the item from the page visually
         document.querySelector(`.js-cart-item-container-${productId}`).remove();
       }
+      else
+      {
+        // update the quantity of the item
+        updateItemQuantity(productId, newQuantity);
+        document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity; // label in the container 
+      }
+      updateCartQuantityLabel(); // label in the header 
+      return true;
     }
-  });
-});
-
-
-// if (document.querySelector(`.js-cart-item-container-${productId}`).classList.contains('is-editing-quantity'))
-// {
-//   document.addEventListener('keydown', (event) =>
-//   {
-
-//   })
-// }
+  }
+}
 
 /**
  * updates the quantity label of the cart page's header

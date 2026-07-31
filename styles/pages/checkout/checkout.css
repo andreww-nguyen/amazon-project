@@ -212,8 +212,11 @@
 
 .quantity-input
 {
-  width: 30px;
+  font-size: 15px;
+  width: 50px;
+  height: 20px;
   display: none;
+  color: black;
 }
 
 .save-quantity-link
