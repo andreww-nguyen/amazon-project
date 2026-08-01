@@ -56,6 +56,7 @@ export function addToCart(productId)
     );
   }
 
+  // save the cart to storage
   saveToStorage();
 }
 
@@ -111,11 +112,19 @@ export function updateItemQuantity(productId, newQuantity)
   saveToStorage();
 }
 
+/**
+ * locates the item in the cart using the productId and changes the 
+ * deliveryOptionId
+ * 
+ * @param {string} productId the ID associated with the item
+ * @param {string} deliveryOptionId the ID associated with the delivery option
+ */
 export function updateDeliveryOption(productId, deliveryOptionId)
 {
   // locate the item in the cart
   cart.forEach((cartItem) =>
   {
+    // change the deliveryOptionId
     if (productId === cartItem.productId)
       cartItem.deliveryOptionId = deliveryOptionId;
   });
