@@ -1,8 +1,10 @@
 import {cart, removeFromCart, calculateCartQuantity, 
   updateItemQuantity, updateDeliveryOption} from '../../data/cart.js';
-import {products, getProduct} from '../../data/products.js';
+import {getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
-import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js'
+import {deliveryOptions, getDeliveryOption, getDeliveryDay} from '../../data/deliveryOptions.js'
+import {renderPaymentSummary} from './paymentSummary.js';
+import {renderCheckoutHeader} from './checkoutHeader.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 /**
@@ -11,9 +13,6 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
  */
 export function renderOrderSummary()
 {
-  // update the number cart items in the header
-  updateCartQuantityLabel();
-
   let cartSummaryHTML = '';
   // loop through the cart and display the items on the checkout page
   cart.forEach((cartItem) =>
@@ -28,17 +27,15 @@ export function renderOrderSummary()
     const deliveryOptionId = cartItem.deliveryOptionId;
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    // get today's date and format the date of the delivery
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format('dddd, MMMM D');
+    // get the delivery date
+    const dateString = getDeliveryDay(deliveryOption);
 
     // generate the HTML for the cart summary
     cartSummaryHTML += 
     `
       <div class="js-cart-item-container-${matchingProduct.id} 
       cart-item-container">
-        <div class="delivery-date">
+        <div class="js-delivery-date-${matchingProduct.id} delivery-date">
           Delivery date: ${dateString}
         </div>
 
@@ -105,9 +102,14 @@ export function renderOrderSummary()
 
       // update the delivery option of the item
       updateDeliveryOption(productId, deliveryOptionId);
+      renderPaymentSummary();
 
-      // render the page with the updates
-      renderOrderSummary();
+      // update the date label for the item
+      // avoid rendering checkout summary again to ensure that other items that are 
+      // being updated do not get reset
+      document.querySelector(`.js-delivery-date-${productId}`).innerHTML = 
+        `${getDeliveryDay(getDeliveryOption(deliveryOptionId))}`;
+
     });
   });
 
@@ -119,9 +121,15 @@ export function renderOrderSummary()
       // use the productId to remove the item from the cart
       const productId = link.dataset.productId;
       removeFromCart(productId);
+      document.querySelector(`.js-cart-item-container-${productId}`).remove();
 
-      // render the page with the updates
-      renderOrderSummary();
+      // update the page to reflect changes
+      // avoid rendering checkout summary again to ensure that other items that are 
+      // being updated do not get reset
+      renderCheckoutHeader();
+      renderPaymentSummary();
+
+      
     })
   });
 
@@ -186,9 +194,7 @@ function deliveryOptionsHTML(cartItem, matchingProduct)
   deliveryOptions.forEach((deliveryOption) =>
   {
     // get today's date and apply the specified number of days and format
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format('dddd, MMMM D');
+    const dateString = getDeliveryDay(deliveryOption)
     const priceString = deliveryOption.priceCents === 0 ? 'FREE' 
       : `${formatCurrency(deliveryOption.priceCents)} - `;
 
@@ -248,27 +254,21 @@ function handleInput(productId, userInput)
       
       // update the cart internally
       if (newQuantity === 0)
+      {
         removeFromCart(productId); // remove from the cart if '0'
+        document.querySelector(`.js-cart-item-container-${productId}`).remove();
+      }
       else
+      {
         updateItemQuantity(productId, newQuantity); // update the quantity of the item
+        document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
+      }
 
-      // render the page to reflect the changes
-      renderOrderSummary();
+      // update the page to reflect changes
+      // avoid rendering checkout summary again to ensure that other items that are 
+      // being updated do not get reset
+      renderCheckoutHeader();
+      renderPaymentSummary();
     }
   }
-}
-
-/**
- * updates the quantity label of the cart page's header
- */
-function updateCartQuantityLabel()
-{
-  // get the number of items in the cart
-  const cartQuantity = calculateCartQuantity();
-
-  // update the number of cart items in the header
-  if (cartQuantity === 1) // grammar rules
-    document.querySelector('.js-return-link').innerHTML = `${cartQuantity} item`;
-  else
-    document.querySelector('.js-return-link').innerHTML = `${cartQuantity} items`;
 }

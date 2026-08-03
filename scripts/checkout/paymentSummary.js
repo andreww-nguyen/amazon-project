@@ -1,9 +1,11 @@
-import {cart} from '../../data/cart.js';
+import {cart, calculateCartQuantity} from '../../data/cart.js';
 import {getProduct} from '../../data/products.js';
 import {getDeliveryOption} from '../..//data/deliveryOptions.js';
 import {formatCurrency} from '../utils/money.js';
 
-
+/**
+ * renders the payment summary on the checkout page
+ */
 export function renderPaymentSummary()
 {
   let grossCostCents = 0;
@@ -26,9 +28,6 @@ export function renderPaymentSummary()
   let taxCents = totalBeforeTaxCents * (TAX / 100);
   const totalCents = totalBeforeTaxCents + taxCents;
 
-  console.log(grossCostCents);
-  console.log(shippingCostCents);
-
   const paymentSummaryHTML = 
   `
     <div class="payment-summary-title">
@@ -36,7 +35,7 @@ export function renderPaymentSummary()
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (${cart.length}):</div>
+      <div>Items (${calculateCartQuantity()}):</div>
       <div class="payment-summary-money">
         $${formatCurrency(grossCostCents)}
       </div>
@@ -74,6 +73,5 @@ export function renderPaymentSummary()
       Place your order
     </button>
   `;
-
   document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 }
