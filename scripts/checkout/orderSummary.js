@@ -107,8 +107,9 @@ export function renderOrderSummary()
       // update the date label for the item
       // avoid rendering checkout summary again to ensure that other items that are 
       // being updated do not get reset
+      const dateString = getDeliveryDay(getDeliveryOption(deliveryOptionId));
       document.querySelector(`.js-delivery-date-${productId}`).innerHTML = 
-        `${getDeliveryDay(getDeliveryOption(deliveryOptionId))}`;
+        `Delivery date: ${dateString}`;
 
     });
   });
@@ -128,8 +129,6 @@ export function renderOrderSummary()
       // being updated do not get reset
       renderCheckoutHeader();
       renderPaymentSummary();
-
-      
     })
   });
 
