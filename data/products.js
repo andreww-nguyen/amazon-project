@@ -1,3 +1,9 @@
+/**
+ * uses the productId to locate the item in the cart/products
+ * 
+ * @param {string} productId the ID associated with the item
+ * @returns a copy of the item that matches the productId
+ */
 export function getProduct(productId)
 {
   let matchingProduct;

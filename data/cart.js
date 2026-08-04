@@ -1,22 +1,32 @@
 // retrieve cart from local storage
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
+loadFromStorage();
 
-// initialize with default values if no values from local storage
-if (!cart)
+/**
+ * loads the cart from the memory in local storage
+ */
+export function loadFromStorage()
 {
-  cart = [
-    {
-      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      quantity: 2,
-      deliveryOptionId: '1'
-    },
-  
-    {
-      productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      quantity: 1,
-      deliveryOptionId: '2'
-    }
-  ];
+  cart = JSON.parse(localStorage.getItem('cart'));
+
+  // initialize with default values if no values from local storage
+  if (!cart)
+  {
+    cart = 
+    [
+      {
+        productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+        quantity: 2,
+        deliveryOptionId: '1'
+      },
+    
+      {
+        productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+        quantity: 1,
+        deliveryOptionId: '2'
+      }
+    ];
+  }
 }
 
 /**
@@ -25,11 +35,11 @@ if (!cart)
  * drop-down menu
  * 
  * @param {string} productId the ID associated with the product
+ * @param {number} productQuantity the number of items to add to the cart
  */
-export function addToCart(productId)
+export function addToCart(productId, productQuantity)
 {
   // get the number of items to add to the cart
-  const productQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
   // check if the product already exists in the cart
   let matchingItem;
