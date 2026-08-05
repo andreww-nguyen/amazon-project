@@ -44,7 +44,7 @@ export function renderOrderSummary()
             src="${matchingProduct.image}">
 
           <div class="cart-item-details">
-            <div class="product-name">
+            <div class="js-product-name-${matchingProduct.id} product-name">
               ${matchingProduct.name}
             </div>
             <div class="product-price">
@@ -72,7 +72,8 @@ export function renderOrderSummary()
                 Save
               </span>
 
-              <span class="js-delete-link js-delete-link-${matchingProduct.id} delete-quantity-link link-primary"
+              <span class="js-delete-link js-delete-link-${matchingProduct.id} 
+              delete-quantity-link link-primary"
               data-product-id="${matchingProduct.id}">
                 Delete
               </span>
