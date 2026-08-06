@@ -1,3 +1,35 @@
+import {formatCurrency} from '../scripts/utils/money.js'
+
+class Product
+{
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(productDetails)
+  {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+
+  getStarsURL()
+  {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() 
+  {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+
+}
+
 /**
  * uses the productId to locate the item in the cart/products
  * 
@@ -9,15 +41,10 @@ export function getProduct(productId)
   let matchingProduct;
   products.forEach((product) =>
   {
-    // locate the product based on the ID
     if (product.id === productId)
-    {
       matchingProduct = product;
-      return; // return out of the function
-    }
   });
-
-  return matchingProduct;
+  return new Product(matchingProduct);
 }
 
 export const products = [
@@ -36,6 +63,7 @@ export const products = [
       "apparel"
     ]
   },
+
   {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     image: "images/products/intermediate-composite-basketball.jpg",
@@ -679,4 +707,7 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productDetails) =>
+{
+  return new Product(productDetails);
+});

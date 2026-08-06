@@ -1,5 +1,6 @@
 import {loadFromStorage, cart} from '../../data/cart.js';
 import {renderOrderSummary} from '../../scripts/checkout/orderSummary.js';
+import {products} from '../../data/products.js';
 
 // create test suite
 describe('test suite: renderOrderSummary', () =>
@@ -17,23 +18,23 @@ describe('test suite: renderOrderSummary', () =>
     `;
 
     spyOn(localStorage, 'getItem').and.callFake(() =>
-      {
-        return JSON.stringify(
-        [
-          {
-            productId: productId1,
-            quantity: 2,
-            deliveryOptionId: '1'
-          },
-        
-          {
-            productId: productId2,
-            quantity: 1,
-            deliveryOptionId: '2'
-          }
-        ]
-        );
-      });
+    {
+      return JSON.stringify(
+      [
+        {
+          productId: productId1,
+          quantity: 2,
+          deliveryOptionId: '1'
+        },
+      
+        {
+          productId: productId2,
+          quantity: 1,
+          deliveryOptionId: '2'
+        }
+      ]
+      );
+    });
   
       loadFromStorage();
       renderOrderSummary();
