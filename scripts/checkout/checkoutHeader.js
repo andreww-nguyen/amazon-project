@@ -1,4 +1,4 @@
-import {calculateCartQuantity} from "../../data/cart.js";
+import {cart} from "../../data/cart.js";
 
 /**
  * renders the checkout header
@@ -18,8 +18,8 @@ export function renderCheckoutHeader()
     <div class="checkout-header-middle-section">
       Checkout (
       <a class="js-return-link return-to-home-link" href="index.html">
-        ${calculateCartQuantity()}
-        ${calculateCartQuantity() === 1 ? ' item' : ' items'}
+        ${cart.getCartQuantity()}
+        ${cart.getCartQuantity() === 1 ? ' item' : ' items'}
 
       </a>)
     </div>

@@ -1,9 +1,9 @@
-import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
-import {products} from '../data/products.js';
+import { cart } from '../data/cart.js';
+import { products } from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
 // update the cart quantity when loading the page
-updateCartQuantity(); 
+updateCartQuantity();
 
 let productsHTML = '';
 // loop through the array to get the product information
@@ -13,11 +13,11 @@ products.forEach((product) =>
     <div class="product-container">
       <div class="product-image-container">
         <img class="product-image"
-          src="${product.image}">
+          src="${product.getImage()}">
       </div>
 
       <div class="product-name limit-text-to-2-lines">
-        ${product.name}
+        ${product.getName()}
       </div>
 
       <div class="product-rating-container">
@@ -34,7 +34,7 @@ products.forEach((product) =>
       </div>
 
       <div class="product-quantity-container">
-        <select class="js-quantity-selector-${product.id}">
+        <select class="js-quantity-selector-${product.getId()}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -52,13 +52,13 @@ products.forEach((product) =>
 
       <div class="product-spacer"></div>
 
-      <div class="js-added-${product.id} added-to-cart">
+      <div class="js-added-${product.getId()} added-to-cart">
         <img src="images/icons/checkmark.png">
         Added
       </div>
 
       <button class="js-add-to-cart add-to-cart-button button-primary"
-      data-product-id="${product.id}">
+      data-product-id="${product.getId()}">
         Add to Cart
       </button>
     </div>`;
@@ -77,10 +77,10 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
   {
     const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     // add the product to the cart
-    addToCart(productId, quantity);
+    cart.addToCart(productId, quantity);
 
     // update the cart quantity
-    updateCartQuantity();  
+    updateCartQuantity();
 
     // display the 'added' text on the page. Store the timeoutID generated
     // from setTimeout into currentTimeoutID
@@ -99,7 +99,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>
 function updateCartQuantity()
 {
   // update the cart quantity
-  document.querySelector('.js-cart-quantity').innerHTML = calculateCartQuantity();
+  document.querySelector('.js-cart-quantity').innerHTML = cart.getCartQuantity();
 }
 
 /**
