@@ -16,13 +16,12 @@ class Cart
    */
   loadFromStorage()
   {
-    this.#cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
+    this.#cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey))
 
     if (!this.#cartItems)
     {
-      // fresh defaults — these are ALREADY real CartItem instances, no restoration needed
-      let cartItem1 = new CartItem(products[0].getId(), 2);
-      let cartItem2 = new CartItem(products[1].getId(), 1);
+      let cartItem1 = new CartItem('e43638ce-6aa0-4b85-b27f-e1d07eb678c6', 2);
+      let cartItem2 = new CartItem('15b6fc6f-327a-4ec4-896f-486349e85a3d', 1);
       this.#cartItems = [cartItem1, cartItem2];
     }
     else
