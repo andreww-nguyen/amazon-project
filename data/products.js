@@ -825,8 +825,6 @@ export function loadProducts(funct)
 
     // render the products grid
     funct();
-
-    console.log('load products');
   })
 
 
