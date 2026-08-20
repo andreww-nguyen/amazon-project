@@ -7,18 +7,25 @@ import { loadCart } from '../data/cart.js'
 
 async function loadPage()
 {
-  // wait until loading the products finishes
-  await loadProducts()
-
-  // load the cart
-  await new Promise((resolve) =>
+  try
   {
-    loadCart(() =>
-    {
-      resolve();
-    });
-  });
+    // wait until loading the products finishes
+    await loadProducts()
 
+    // load the cart
+    await new Promise((resolve) =>
+    {
+      loadCart(() =>
+      {
+        resolve();
+      });
+    });
+  }
+  catch(error)
+  {
+    console.log('unexpected error. Try again later');
+  }
+  
   // render the checkout page
   renderCheckoutHeader();
   renderOrderSummary();

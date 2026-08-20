@@ -1,11 +1,19 @@
 import { cart } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
-import {formatCurrency} from './utils/money.js';
+import { formatCurrency } from './utils/money.js';
 
-loadProducts(renderProductsGrid);
 
-// update the cart quantity when loading the page
-updateCartQuantity();
+loadHomePage();
+
+async function loadHomePage()
+{
+  await loadProducts();
+
+  // update the cart quantity when loading the page
+  updateCartQuantity();
+
+  renderProductsGrid();
+}
 
 function renderProductsGrid()
 {
