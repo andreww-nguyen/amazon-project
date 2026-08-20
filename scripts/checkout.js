@@ -4,29 +4,53 @@ import {renderCheckoutHeader} from './checkout/checkoutHeader.js';
 import { loadProducts } from '../data/products.js';
 import { loadCart } from '../data/cart.js'
 
-// load both cart and the products asynchronously
-Promise.all(
-[
-  // load the products
-  loadProducts(),
+
+async function loadPage()
+{
+  // wait until loading the products finishes
+  await loadProducts()
 
   // load the cart
-  new Promise((resolve) =>
+  await new Promise((resolve) =>
   {
     loadCart(() =>
     {
       resolve();
     });
-  })
+  });
 
-]).then((values) =>
-{
   // render the checkout page
-  console.log(values);
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
-});
+}
+
+loadPage();
+
+
+// load both cart and the products asynchronously
+// Promise.all(
+// [
+//   // load the products
+//   loadProducts(),
+
+//   // load the cart
+//   new Promise((resolve) =>
+//   {
+//     loadCart(() =>
+//     {
+//       resolve();
+//     });
+//   })
+
+// ]).then((values) =>
+// {
+//   // render the checkout page
+//   console.log(values);
+//   renderCheckoutHeader();
+//   renderOrderSummary();
+//   renderPaymentSummary();
+// });
 
 
 
