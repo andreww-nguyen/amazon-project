@@ -806,29 +806,62 @@ export function getProduct(productId)
 
 export let products = [];
 
-export function loadProducts(funct)
+
+export function loadProducts()
 {
-  const xhr = new XMLHttpRequest;
-
-  // when receiving the request, load the data into the products array
-  xhr.addEventListener('load', () =>
+  const promise = fetch('https://supersimplebackend.dev/products').then((response) =>
   {
-    products = JSON.parse(xhr.response).map((productDetails) =>
-    {
-      if (productDetails.type === 'clothing')
-        return new Clothing(productDetails);
-      else if (productDetails.type === 'appliance')
-        return new Appliance(productDetails);
+    return response.json();
 
-      return new Product(productDetails);
-    });
-
-    // render the products grid
-    funct();
-  })
-
-
-  // create, setup, and send the request
-  xhr.open('GET', 'https://supersimplebackend.dev/products');
-  xhr.send();
+  }).then((productsData) =>
+  {
+    products = productsData.map((productDetails) =>
+      {
+        if (productDetails.type === 'clothing')
+          return new Clothing(productDetails);
+        else if (productDetails.type === 'appliance')
+          return new Appliance(productDetails);
+  
+        return new Product(productDetails);
+      });
+  
+      // render the products grid
+      console.log('load products');
+  });
+  return promise;
 }
+
+// loadProductsFetch().then(() =>
+// {
+//   console.log('next step');
+// });
+
+
+
+
+// export function loadProducts(funct)
+// {
+//   const xhr = new XMLHttpRequest;
+
+//   // when receiving the request, load the data into the products array
+//   xhr.addEventListener('load', () =>
+//   {
+//     products = JSON.parse(xhr.response).map((productDetails) =>
+//     {
+//       if (productDetails.type === 'clothing')
+//         return new Clothing(productDetails);
+//       else if (productDetails.type === 'appliance')
+//         return new Appliance(productDetails);
+
+//       return new Product(productDetails);
+//     });
+
+//     // render the products grid
+//     funct();
+//   })
+
+
+//   // create, setup, and send the request
+//   xhr.open('GET', 'https://supersimplebackend.dev/products');
+//   xhr.send();
+// }

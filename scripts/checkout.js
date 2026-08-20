@@ -8,13 +8,7 @@ import { loadCart } from '../data/cart.js'
 Promise.all(
 [
   // load the products
-  new Promise((resolve) =>
-  {
-    loadProducts(() =>
-    {
-      resolve('value1');
-    });
-  }),
+  loadProducts(),
 
   // load the cart
   new Promise((resolve) =>

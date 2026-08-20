@@ -10,10 +10,10 @@ describe('test suite: renderOrderSummary', () =>
 
   beforeAll((done) =>
   {
-    loadProducts(() =>
+    loadProducts().then(() =>
     {
       done();
-    });
+    })
   });
 
   beforeEach(() =>
