@@ -1,9 +1,8 @@
-import {renderOrderSummary} from './checkout/orderSummary.js';
-import {renderPaymentSummary} from './checkout/paymentSummary.js';
-import {renderCheckoutHeader} from './checkout/checkoutHeader.js';
+import { renderCheckoutSummary } from './checkout/checkoutSummary.js';
+import { renderPaymentSummary } from './checkout/paymentSummary.js';
+import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
 import { loadProducts } from '../data/products.js';
 import { loadCart } from '../data/cart.js'
-
 
 async function loadPage()
 {
@@ -24,7 +23,7 @@ async function loadPage()
   
   // render the checkout page
   renderCheckoutHeader();
-  renderOrderSummary();
+  renderCheckoutSummary();
   renderPaymentSummary();
 }
 

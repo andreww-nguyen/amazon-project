@@ -4,13 +4,12 @@ import {formatCurrency} from '../utils/money.js';
 import {deliveryOptions, getDeliveryOption, getDeliveryDay} from '../../data/deliveryOptions.js'
 import {renderPaymentSummary} from './paymentSummary.js';
 import {renderCheckoutHeader} from './checkoutHeader.js';
-import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 /**
  * renders the checkout page. Displays all the items in the cart and 
  * their information
  */
-export function renderOrderSummary()
+export function renderCheckoutSummary()
 {
   let cartSummaryHTML = '';
   // loop through the cart and display the items on the checkout page
