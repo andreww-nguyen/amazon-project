@@ -82,6 +82,7 @@ function renderProductsGrid()
       </div>`;
   });
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  console.log(products);
 
   // eventListener for the 'add to cart' buttons
   document.querySelectorAll('.js-add-to-cart').forEach((button) =>
