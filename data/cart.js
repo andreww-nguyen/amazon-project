@@ -222,6 +222,11 @@ class CartItem
 
 export let cart = new Cart('cart');
 
+/**
+ * creates a request and displays the response in the
+ * 
+ * @returns {Promise} text the response from the backend as a promise
+ */
 export async function loadCart()
 {
   const response = await fetch('https://supersimplebackend.dev/cart');

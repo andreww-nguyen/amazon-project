@@ -2,7 +2,10 @@ import { cart } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
-
+/**
+ * retrives the data from the backend for the products,
+ * then updates the cart quantity and the products grid
+ */
 loadHomePage();
 
 async function loadHomePage()
@@ -15,6 +18,9 @@ async function loadHomePage()
   renderProductsGrid();
 }
 
+/**
+ * renders the grid of the products and displays the HTML on the page
+ */
 function renderProductsGrid()
 {
   let productsHTML = '';

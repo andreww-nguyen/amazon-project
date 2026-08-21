@@ -806,11 +806,20 @@ export function getProduct(productId)
 
 export let products = [];
 
+/**
+ * creates a request to the backend and turns the response
+ * into an array of Product classes
+ * 
+ * @returns {promise} the array of products as a promise
+ */
 export async function loadProducts()
 {
   try
   {
+    // create a request and wait for the response from backend
     const response = await fetch('https://supersimplebackend.dev/products');
+
+    // convert the response into an JSON object
     const productsData = await response.json();
   
     // convert the products into an array of classes

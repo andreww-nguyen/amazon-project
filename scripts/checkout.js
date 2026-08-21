@@ -9,6 +9,7 @@ async function loadPage()
 {
   try
   {
+    // load both the products and the cart asynchronously
     await Promise.all(
     [
       loadProducts(),
