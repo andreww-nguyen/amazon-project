@@ -222,20 +222,28 @@ class CartItem
 
 export let cart = new Cart('cart');
 
-export function loadCart(funct)
+export async function loadCart()
 {
-  const xhr = new XMLHttpRequest;
-
-  // when receiving the request, load the data into the products array
-  xhr.addEventListener('load', () =>
-  {
-    console.log(xhr.response);
-    // render the products grid
-    funct();
-  })
-
-
-  // create, setup, and send the request
-  xhr.open('GET', 'https://supersimplebackend.dev/cart');
-  xhr.send();
+  const response = await fetch('https://supersimplebackend.dev/cart');
+  const text = await response.text();
+  console.log(text);
+  return text;
 }
+
+// export function loadCart(funct)
+// {
+//   const xhr = new XMLHttpRequest;
+
+//   // when receiving the request, load the data into the products array
+//   xhr.addEventListener('load', () =>
+//   {
+//     console.log(xhr.response);
+//     // render the products grid
+//     funct();
+//   })
+
+
+//   // create, setup, and send the request
+//   xhr.open('GET', 'https://supersimplebackend.dev/cart');
+//   xhr.send();
+// }

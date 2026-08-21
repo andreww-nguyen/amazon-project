@@ -806,34 +806,32 @@ export function getProduct(productId)
 
 export let products = [];
 
-export function loadProducts()
+export async function loadProducts()
 {
-  const promise = fetch('https://supersimplebackend.dev/products').then((response) =>
+  try
   {
-    // retrieve the products from the backend
-    return response.json();
-
-  }).then((productsData) =>
-  {
-    // convert the array into an array of classes
+    const response = await fetch('https://supersimplebackend.dev/products');
+    const productsData = await response.json();
+  
+    // convert the products into an array of classes
     products = productsData.map((productDetails) =>
     {
       if (productDetails.type === 'clothing')
         return new Clothing(productDetails);
       else if (productDetails.type === 'appliance')
         return new Appliance(productDetails);
-
+  
       return new Product(productDetails);
     });
   
-    // console.log('load products');
-  }).catch(() =>
-  {
-    // catch errors
-    console.log('unexpected error. Try again later');
+    console.log('loaded products');
+    return products;
 
-  });
-  return promise;
+  }
+  catch(error)
+  {
+    console.log('unexpected error. please try again');
+  }
 }
 
 // loadProductsFetch().then(() =>

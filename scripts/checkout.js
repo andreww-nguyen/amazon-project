@@ -9,17 +9,12 @@ async function loadPage()
 {
   try
   {
-    // wait until loading the products finishes
-    await loadProducts()
-
-    // load the cart
-    await new Promise((resolve) =>
-    {
-      loadCart(() =>
-      {
-        resolve();
-      });
-    });
+    await Promise.all(
+    [
+      loadProducts(),
+      loadCart()
+    ]);
+    
   }
   catch(error)
   {
