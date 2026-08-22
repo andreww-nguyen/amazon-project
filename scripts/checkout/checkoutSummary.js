@@ -12,6 +12,23 @@ import {renderCheckoutHeader} from './checkoutHeader.js';
 export function renderCheckoutSummary()
 {
   let cartSummaryHTML = '';
+
+  // display the view products button if there are no items in the cart
+  if (cart.getCartQuantity() === 0)
+  {
+    cartSummaryHTML = 
+    `
+      <div class="js-empty-cart-container empty-cart-container">
+        <p>Your cart is empty.</p>
+        <a href="index.html">
+          <button class="view-products-button button-primary">
+            View Products
+          </button>
+        </a>
+      </div>
+    `;
+  }
+  
   // loop through the cart and display the items on the checkout page
   cart.getCartItems().forEach((cartItem) =>
   {
@@ -128,6 +145,7 @@ export function renderCheckoutSummary()
       // being updated do not get reset
       renderCheckoutHeader();
       renderPaymentSummary();
+      renderCheckoutSummary();
     })
   });
 
