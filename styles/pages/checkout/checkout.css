@@ -243,3 +243,9 @@
 {
   display: none;
 }
+
+.is-unavailable
+{
+  pointer-events: none;
+  opacity: 0.4;
+}

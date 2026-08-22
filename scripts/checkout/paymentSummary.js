@@ -74,7 +74,13 @@ export function renderPaymentSummary()
       Place your order
     </button>
   `;
+
+  // insert the HTML onto the page
   document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
+
+  // make sure that the user cannot make an order with no items in the cart
+  if (cart.getCartQuantity() === 0)
+    document.querySelector('.js-place-order').classList.add('is-unavailable');
 
   // event listener for the order button
   document.querySelector('.js-place-order').addEventListener('click', async () =>
@@ -95,6 +101,8 @@ export function renderPaymentSummary()
       });
   
       const order = await response.json();
+
+      // add the order to the orders array
       addOrder(order);
     }
     catch(error)
@@ -105,4 +113,3 @@ export function renderPaymentSummary()
     window.location.href = 'orders.html';
   });
 }
-
