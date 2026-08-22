@@ -135,7 +135,7 @@ function displayAddedText(productId, previousTimeoutID)
   // display the added text
   document.querySelector(`.js-added-${productId}`).classList.add('displayed');
 
-  // stop the previous timeout if it exists
+  // stop the previous timeout if it exists so we can restart the timer
   if (previousTimeoutID) 
     clearTimeout(previousTimeoutID);
 
