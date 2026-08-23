@@ -18,6 +18,12 @@
   margin-bottom: 30px;
 }
 
+.back-to-orders-button
+{
+  padding: 10px;
+  padding-inline: 20px;
+}
+
 .delivery-date {
   font-size: 25px;
   font-weight: 700;
