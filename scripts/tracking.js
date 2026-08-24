@@ -13,6 +13,7 @@ async function renderTrackingPage()
   const orderId = urlParam.get('orderId');
   const productId = urlParam.get('productId');
   let matchingProduct;
+  let matchingOrder;
   console.log(orders);
 
   orders.forEach((order) =>
@@ -20,6 +21,7 @@ async function renderTrackingPage()
     // find the order in the orders array
     if (order.id === orderId)
     {
+      matchingOrder = order;
       // find the product from the order
       order.products.forEach((product) =>
       {
@@ -44,7 +46,7 @@ async function renderTrackingPage()
     </a>
 
     <div class="delivery-date">
-      Arriving on ${dayjs(matchingProduct.estimatedDeliveryTime).format('dddd MMMM D')}
+      Arriving on ${dayjs(matchingProduct.estimatedDeliveryTime).format('dddd, MMMM D')}
     </div>
 
     <div class="product-info">
@@ -74,4 +76,17 @@ async function renderTrackingPage()
     </div>
   `;
   document.querySelector('.js-order-tracking').innerHTML = productOrderHTML;
+
+  // calculate the delivery time
+  const deliveryProgress = getDeliveryProgress(matchingOrder, matchingProduct);
+  console.log(deliveryProgress);
+  document.querySelector('.progress-bar').style.width = `${deliveryProgress}%`;
+}
+
+function getDeliveryProgress(order, product)
+{
+  const today = dayjs();
+  const orderTime = dayjs(order.orderTime);
+  const estimatedDeliveryTime = dayjs(product.estimatedDeliveryTime);
+  return ((today - orderTime) / (estimatedDeliveryTime - orderTime)) * 100;
 }
