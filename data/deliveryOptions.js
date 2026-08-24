@@ -39,23 +39,8 @@ export function getDeliveryDay(deliveryOption)
 {
   // get today's date and format the date of the delivery
   const today = dayjs();
-  let deliveryDate = today;
-  let daysToAdd = deliveryOption.deliveryDays;
+  let deliveryDate = today.add(deliveryOption.deliveryDays, 'day');
   
-  while (daysToAdd > 0)
-  {
-    // add one day
-    deliveryDate = deliveryDate.add(1, 'days');
-    
-    if (!isWeekend(deliveryDate))
-    {
-      // decrease the number of days to add
-      // if the day to delivery is a saturday or sunday, we continue adding
-      daysToAdd--;
-    }
-  }
-
-  // format the deliveryDate
   const dateString = deliveryDate.format('dddd, MMMM D');
   return dateString;
 }

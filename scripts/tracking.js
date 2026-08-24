@@ -1,14 +1,40 @@
-import { getProduct } from '../data/products.js';
+import { loadProducts, getProduct } from '../data/products.js';
+import { orders } from '../data/orders.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
-const urlParam = new URLSearchParams(window.location.search);
-const orderId = urlParam.get('orderId');
-const productId = urlParam.get('productId');
-console.log(orderId);
+
 
 renderTrackingPage();
 
-function renderTrackingPage()
+async function renderTrackingPage()
 {
+  await loadProducts();
+  const urlParam = new URLSearchParams(window.location.search);
+  const orderId = urlParam.get('orderId');
+  const productId = urlParam.get('productId');
+  let matchingProduct;
+  console.log(orders);
+
+  orders.forEach((order) =>
+  {
+    // find the order in the orders array
+    if (order.id === orderId)
+    {
+      // find the product from the order
+      order.products.forEach((product) =>
+      {
+        // find the matching product
+        if (product.productId === productId)
+        {
+          matchingProduct = product;
+          console.log(matchingProduct)
+        }
+
+      });
+    }
+  });
+
+  // find the matching order  
   let productOrderHTML = 
   `
     <a class="back-to-orders-link link-primary" href="orders.html">
@@ -18,18 +44,18 @@ function renderTrackingPage()
     </a>
 
     <div class="delivery-date">
-      Arriving on Monday, June 13
+      Arriving on ${dayjs(matchingProduct.estimatedDeliveryTime).format('dddd MMMM D')}
     </div>
 
     <div class="product-info">
-      Black and Gray Athletic Cotton Socks - 6 Pairs
+      ${getProduct(matchingProduct.productId).getName()}
     </div>
 
     <div class="product-info">
-      Quantity: 1
+      Quantity: ${matchingProduct.quantity}
     </div>
 
-    <img class="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg">
+    <img class="product-image" src="${getProduct(matchingProduct.productId).getImage()}">
 
     <div class="progress-labels-container">
       <div class="progress-label">
