@@ -1,6 +1,5 @@
 import { cart } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
 
 /**
  * retrives the data from the backend for the products,
@@ -18,14 +17,45 @@ async function loadHomePage()
   renderProductsGrid();
 }
 
+document.querySelector('.js-search-button').addEventListener('click', () =>
+{
+  const search = document.querySelector('.js-search-bar').value;
+
+  // check if the user entered anythin in the text box
+  if (search)
+    document.querySelector('.js-search-link').href = `index.html?search=${search}`;
+  else
+    document.querySelector('.js-search-link').href = `index.html`;
+
+});
+
 /**
  * renders the grid of the products and displays the HTML on the page
  */
 function renderProductsGrid()
 {
   let productsHTML = '';
+
+  const url = window.location.search;
+  const urlParams = new URLSearchParams(url);
+  let queriedProducts = products;
+  let searchQuery;
+
+  // determine if the url parameter 'search' exists
+  if (urlParams.has('search'))
+    searchQuery = urlParams.get('search');
+  
+  // if a search query does exist, filter the products that match the query
+  if (searchQuery)
+  {
+    queriedProducts = products.filter((product) =>
+    {
+      return product.getName().includes(searchQuery);
+    })
+  }
+
   // loop through the array to get the product information
-  products.forEach((product) =>
+  queriedProducts.forEach((product) =>
   {
     productsHTML += `
       <div class="product-container">
@@ -82,7 +112,6 @@ function renderProductsGrid()
       </div>`;
   });
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
-  console.log(products);
 
   // eventListener for the 'add to cart' buttons
   document.querySelectorAll('.js-add-to-cart').forEach((button) =>
