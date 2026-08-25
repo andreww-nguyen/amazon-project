@@ -36,6 +36,9 @@ async function renderTrackingPage()
     }
   });
 
+  // calculate the delivery time
+  const deliveryProgress = getDeliveryProgress(matchingOrder, matchingProduct);
+  
   // find the matching order  
   let productOrderHTML = 
   `
@@ -60,13 +63,13 @@ async function renderTrackingPage()
     <img class="product-image" src="${getProduct(matchingProduct.productId).getImage()}">
 
     <div class="progress-labels-container">
-      <div class="progress-label">
+      <div class="prepare-progress-label">
         Preparing
       </div>
-      <div class="progress-label current-status">
+      <div class="shipped-progress-label">
         Shipped
       </div>
-      <div class="progress-label">
+      <div class="delivered-progress-label">
         Delivered
       </div>
     </div>
@@ -77,10 +80,18 @@ async function renderTrackingPage()
   `;
   document.querySelector('.js-order-tracking').innerHTML = productOrderHTML;
 
-  // calculate the delivery time
-  const deliveryProgress = getDeliveryProgress(matchingOrder, matchingProduct);
-  console.log(deliveryProgress);
+  // determine the order status
+  let orderStatus;
+  if (deliveryProgress >= 0 && deliveryProgress <= 49)
+    orderStatus = 'prepare';
+  else if (deliveryProgress > 49 && deliveryProgress <= 99)
+    orderStatus = 'shipped'
+  else if (deliveryProgress > 99)
+    orderStatus = 'delivered';
+
+  // change the HTML of the page
   document.querySelector('.progress-bar').style.width = `${deliveryProgress}%`;
+  document.querySelector(`.${orderStatus}-progress-label`).classList.add('current-status');
 }
 
 function getDeliveryProgress(order, product)
