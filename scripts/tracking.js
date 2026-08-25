@@ -2,19 +2,19 @@ import { loadProducts, getProduct } from '../data/products.js';
 import { orders } from '../data/orders.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
-
-
 renderTrackingPage();
 
+/**
+ * renders teh tracking page of the item
+ */
 async function renderTrackingPage()
 {
   await loadProducts();
-  const urlParam = new URLSearchParams(window.location.search);
-  const orderId = urlParam.get('orderId');
-  const productId = urlParam.get('productId');
+  const url = new URL(window.location.href);
+  const orderId = url.searchParams.get('orderId');
+  const productId = url.searchParams.get('productId');
   let matchingProduct;
   let matchingOrder;
-  console.log(orders);
 
   orders.forEach((order) =>
   {
@@ -27,11 +27,7 @@ async function renderTrackingPage()
       {
         // find the matching product
         if (product.productId === productId)
-        {
           matchingProduct = product;
-          console.log(matchingProduct)
-        }
-
       });
     }
   });
@@ -94,6 +90,12 @@ async function renderTrackingPage()
   document.querySelector(`.${orderStatus}-progress-label`).classList.add('current-status');
 }
 
+/**
+ * 
+ * @param {order} order the order that was placed
+ * @param {Product} product the product within the order
+ * @returns the progress of the delivery as a percentage out of 100 (number)
+ */
 function getDeliveryProgress(order, product)
 {
   const today = dayjs();
