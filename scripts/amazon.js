@@ -34,12 +34,15 @@ document.querySelector('.js-search-button').addEventListener('click', () =>
  */
 function renderProductsGrid()
 {
-  let productsHTML = '';
 
+  console.log(products);
+
+  let productsHTML = '';
   const url = window.location.search;
   const urlParams = new URLSearchParams(url);
   let queriedProducts = products;
   let searchQuery;
+  let tempKeyWords;
 
   // determine if the url parameter 'search' exists
   if (urlParams.has('search'))
@@ -50,8 +53,16 @@ function renderProductsGrid()
   {
     queriedProducts = products.filter((product) =>
     {
-      return (product.getName()).toUpperCase().includes(searchQuery);
-    })
+      // convert the keywords to uppercase
+      tempKeyWords = product.keywords.map((keyword) =>
+      {
+        return keyword.toUpperCase();
+      });
+
+      // return the product if the name or keywords include the searchQuery
+      return (product.getName()).toUpperCase().includes(searchQuery) ||
+        tempKeyWords.includes(searchQuery); // can use .includes() to check if the array has the string
+    });
   }
 
   // loop through the array to get the product information
