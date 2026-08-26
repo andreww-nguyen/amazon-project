@@ -57,7 +57,13 @@ function renderProductsGrid()
 
   // determine if the url parameter 'search' exists
   if (urlParams.has('search'))
-    searchQuery = urlParams.get('search').toUpperCase();
+  {
+    const userSearch = urlParams.get('search');
+    document.querySelector('.js-search-bar').value = userSearch;
+    document.querySelector('.js-search-bar').classList.add('.has-search');
+
+    searchQuery = userSearch.toUpperCase();
+  }
   
   // if a search query does exist, filter the products that match the query
   if (searchQuery)

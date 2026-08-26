@@ -4,6 +4,34 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 renderTrackingPage();
 
+
+document.querySelector('.js-search-button').addEventListener('click', () =>
+{
+  const search = document.querySelector('.js-search-bar').value;
+
+  // check if the user entered anythin in the text box
+  if (search)
+    document.querySelector('.js-search-link').href = `index.html?search=${search}`;
+  else
+    document.querySelector('.js-search-link').href = `index.html`;
+});
+
+document.body.addEventListener('keydown', (event) =>
+{
+  const search = document.querySelector('.js-search-bar').value;
+
+  // only trigger if the search bar is the active element
+  if ((event.key === 'Enter') && 
+    document.activeElement === document.querySelector('.js-search-bar'))
+  {
+    // check if the user entered anythin in the text box
+    if (search)
+      window.location.href = `index.html?search=${search}`;
+    else
+      window.location.href = `index.html`;
+  }
+});
+
 /**
  * renders teh tracking page of the item
  */
