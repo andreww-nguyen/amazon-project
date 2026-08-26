@@ -48,6 +48,25 @@ async function renderOrderSummary()
   // generate the order summary HTML
   let orderSummaryHTML = '';
 
+  // check if there are no orders
+  if (orders.length === 0)
+  {
+    orderSummaryHTML = 
+    `
+      <div class="empty-order-grid">
+        <p>
+          You have no current orders.
+        </p>
+        
+        <a href="index.html">
+          <button class="view-products-button button-primary">
+            View Products
+          </button>
+        </a>
+      </div>
+    `;
+  }
+
   // loop through the orders
   orders.forEach((order) =>
   {

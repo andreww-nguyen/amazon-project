@@ -161,6 +161,23 @@
   padding: 8px;
 }
 
+.view-products-button
+{
+  font-size: 15px;
+  padding: 10px;
+  padding-inline: 17px;
+  margin-top: 10px;
+}
+
+.empty-order-container
+{
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
 @media (max-width: 800px) {
   .buy-again-button {
     margin-bottom: 10px;
@@ -218,3 +235,4 @@
     padding: 12px;
   }
 }
+
