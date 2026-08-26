@@ -834,9 +834,7 @@ export async function loadProducts()
       return new Product(productDetails);
     });
   
-    console.log('loaded products');
     return products;
-
   }
   catch(error)
   {
