@@ -143,7 +143,6 @@
   display: grid;
   grid-template-columns: 24px 1fr;
   margin-bottom: 12px;
-  cursor: pointer;
 }
 
 .delivery-option-input {

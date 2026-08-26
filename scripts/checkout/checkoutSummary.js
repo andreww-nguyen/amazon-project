@@ -127,7 +127,6 @@ export function renderCheckoutSummary()
       const dateString = getDeliveryDay(getDeliveryOption(deliveryOptionId));
       document.querySelector(`.js-delivery-date-${productId}`).innerHTML = 
         `Delivery date: ${dateString}`;
-
     });
   });
 
@@ -232,12 +231,12 @@ function deliveryOptionsHTML(cartItem, matchingProduct)
 
     html += 
      `
-      <div class="js-delivery-option delivery-option"
-      data-product-id="${matchingProduct.getId()}"
-      data-delivery-option-id="${deliveryOption.id}">
+      <div class="delivery-option">
         <input type="radio" ${isChecked ? 'checked' : ''}
-          class="delivery-option-input"
-          name="delivery-option-${matchingProduct.getId()}">
+        class="js-delivery-option delivery-option-input"
+        name="delivery-option-${matchingProduct.getId()}"
+        data-product-id="${matchingProduct.getId()}"
+        data-delivery-option-id="${deliveryOption.id}">
         <div>
           <div class="delivery-option-date">
             ${dateString}
