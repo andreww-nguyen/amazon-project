@@ -264,3 +264,28 @@
   padding: 10px;
   padding-inline: 17px;
 }
+
+.cart-item-header
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-button
+{
+  display: flex;
+  width: 0px;
+  height: 0px;
+  justify-content: center;
+  width: 20px;
+  align-items: center;
+  padding-top: 16px;
+  border-style: none;
+  background-color: transparent;
+}
+
+.delete-image
+{
+  width: 20px;
+  opacity: 70%;
+}

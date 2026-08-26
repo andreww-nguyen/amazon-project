@@ -50,8 +50,15 @@ export function renderCheckoutSummary()
     `
       <div class="js-cart-item-container js-cart-item-container-${matchingProduct.getId()} 
       cart-item-container">
-        <div class="js-delivery-date-${matchingProduct.getId()} delivery-date">
-          Delivery date: ${dateString}
+        <div class="cart-item-header">
+          <div class="js-delivery-date-${matchingProduct.getId()} delivery-date">
+              Delivery date: ${dateString}
+          </div>
+
+          <button class="js-delete-button delete-button"
+          data-product-id="${matchingProduct.getId()}">
+            <img class="delete-image" src="../../images/icons/black-delete-icon.png">
+          </button>
         </div>
 
         <div class="cart-item-details-grid">
@@ -85,12 +92,6 @@ export function renderCheckoutSummary()
               <span class="js-save-quantity-link save-quantity-link link-primary"
               data-product-id="${matchingProduct.getId()}">
                 Save
-              </span>
-
-              <span class="js-delete-link js-delete-link-${matchingProduct.getId()} 
-              delete-quantity-link link-primary"
-              data-product-id="${matchingProduct.getId()}">
-                Delete
               </span>
             </div>
           </div>
@@ -128,25 +129,6 @@ export function renderCheckoutSummary()
         `Delivery date: ${dateString}`;
 
     });
-  });
-
-  // event listener for the 'delete' button for each item
-  document.querySelectorAll('.js-delete-link').forEach((link) =>
-  {
-    link.addEventListener('click', () =>
-    {
-      // use the productId to remove the item from the cart
-      const productId = link.dataset.productId;
-      cart.removeFromCart(productId);
-      document.querySelector(`.js-cart-item-container-${productId}`).remove();
-
-      // update the page to reflect changes
-      // avoid rendering checkout summary again to ensure that other items that are 
-      // being updated do not get reset
-      renderCheckoutHeader();
-      renderPaymentSummary();
-      renderCheckoutSummary();
-    })
   });
 
   // eventListener for the 'update' button for each item
@@ -192,6 +174,37 @@ export function renderCheckoutSummary()
         // handle the input
         handleInput(productId, newQuantity);
       }
+    });
+  });
+
+  // event listener for delete-icons
+  document.querySelectorAll('.js-delete-button').forEach((button) =>
+  {
+    const productId = button.dataset.productId;
+
+    // event listener for hovering over the button
+    button.addEventListener('mouseenter', () =>
+    {
+      button.innerHTML = `<img class="delete-image" src="../../images/icons/red-delete-icon.png"></img>`;
+    });
+  
+    // event listener for leaving the button
+    button.addEventListener('mouseleave', () =>
+    {
+      button.innerHTML = `<img class="delete-image" src="../../images/icons/black-delete-icon.png"></img>`;
+    });
+
+    // event listener for clickign on the button
+    button.addEventListener('click', () =>
+    {
+      // remove the item from the cart
+      cart.removeFromCart(productId);
+
+      // update the page to reflect changes
+      renderCheckoutHeader();
+      renderPaymentSummary();
+      renderCheckoutSummary();
+
     });
   });
 }
