@@ -26,7 +26,22 @@ document.querySelector('.js-search-button').addEventListener('click', () =>
     document.querySelector('.js-search-link').href = `index.html?search=${search}`;
   else
     document.querySelector('.js-search-link').href = `index.html`;
+});
 
+document.body.addEventListener('keydown', (event) =>
+{
+  const search = document.querySelector('.js-search-bar').value;
+
+  // only trigger if the search bar is the active element
+  if ((event.key === 'Enter') && 
+    document.activeElement === document.querySelector('.js-search-bar'))
+  {
+    // check if the user entered anythin in the text box
+    if (search)
+      window.location.href = `index.html?search=${search}`;
+    else
+      window.location.href = `index.html`;
+  }
 });
 
 /**
@@ -34,15 +49,11 @@ document.querySelector('.js-search-button').addEventListener('click', () =>
  */
 function renderProductsGrid()
 {
-
-  console.log(products);
-
   let productsHTML = '';
   const url = window.location.search;
   const urlParams = new URLSearchParams(url);
   let queriedProducts = products;
   let searchQuery;
-  let tempKeyWords;
 
   // determine if the url parameter 'search' exists
   if (urlParams.has('search'))
@@ -53,15 +64,15 @@ function renderProductsGrid()
   {
     queriedProducts = products.filter((product) =>
     {
-      // convert the keywords to uppercase
-      tempKeyWords = product.keywords.map((keyword) =>
+      let matchingKeyWord = false;
+      product.keywords.forEach((keyword) =>
       {
-        return keyword.toUpperCase();
+        if ((keyword.toUpperCase()).includes(searchQuery))
+          matchingKeyWord = true;
       });
 
       // return the product if the name or keywords include the searchQuery
-      return (product.getName()).toUpperCase().includes(searchQuery) ||
-        tempKeyWords.includes(searchQuery); // can use .includes() to check if the array has the string
+      return matchingKeyWord || (product.getName()).toUpperCase().includes(searchQuery)
     });
   }
 
