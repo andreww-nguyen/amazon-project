@@ -7,6 +7,9 @@ import { products, loadProducts } from '../data/products.js';
  */
 loadHomePage();
 
+// display the disclaimer
+document.getElementById('disclaimer-modal').showModal();
+
 async function loadHomePage()
 {
   await loadProducts();

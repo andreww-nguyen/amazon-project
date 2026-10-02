@@ -159,3 +159,30 @@
 {
   opacity: 1;
 }
+
+.disclaimer-modal
+{
+  width: 50%;
+}
+
+.disclaimer-container
+{
+  text-align: center;
+  font-weight: bold;
+  justify-content: center;
+  line-height: 25px;
+}
+
+.disclaimer-close-button
+{
+  padding: 7px;
+  padding-inline: 18px;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(180, 180, 180);
+}
+
+.disclaimer-close-button:hover
+{
+  background-color: rgb(216, 216, 216);
+}
