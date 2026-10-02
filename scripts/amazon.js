@@ -10,6 +10,13 @@ loadHomePage();
 // display the disclaimer
 document.getElementById('disclaimer-modal').showModal();
 
+// event listener for the close button in disclaimer
+document.querySelector('.js-disclaimer-close-button').addEventListener('click', () =>
+{
+  document.getElementById('disclaimer-modal').close();
+})
+
+
 async function loadHomePage()
 {
   await loadProducts();

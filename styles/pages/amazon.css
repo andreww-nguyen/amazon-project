@@ -179,10 +179,15 @@
   padding-inline: 18px;
   border: none;
   border-radius: 20px;
-  background-color: rgb(180, 180, 180);
+  background-color: rgb(202, 202, 202);
 }
 
 .disclaimer-close-button:hover
 {
   background-color: rgb(216, 216, 216);
+}
+
+dialog::backdrop
+{
+  background-color: rgba(0, 0, 0, 0.47);
 }
